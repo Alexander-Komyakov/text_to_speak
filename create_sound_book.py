@@ -7,8 +7,8 @@ import sys
 import random
 from pydub import AudioSegment
 from IPython.display import Audio
-import argparse
 import threading
+from parser_arg import ParserArg
 
 
 def generate_save_audio(model, speaker, sample_rate, voice_path, i, ssml):
@@ -65,18 +65,8 @@ def split_audio(audio_array):
 	return out_sounds
 
 
-parser = argparse.ArgumentParser(add_help=False)
-parser.add_argument("-h", "--help", action="help", default=argparse.SUPPRESS,
-					help=\
-"""
-Спикеры: aidar baya xenia kseniya eugene. С использованием GEN_MODEL только random. Некоторые спикеры работают с ошибками, например aidar""")
-parser.add_argument("-t", "--text", default="text.txt")
-parser.add_argument("-m", "--model", default="model.pt")
-parser.add_argument("-g", "--gen_model", default="")
-parser.add_argument("-s", "--speaker", default="eugene")
-parser.add_argument("-o", "--out_sound", default="sound.wav")
-parser.add_argument("-l", "--ssml", action=argparse.BooleanOptionalAction, default="0")
-all_args = parser.parse_args(sys.argv[1:])
+parser = ParserArg(sys.argv[1:])
+all_args = parser.get_args()
 
 text_file = all_args.text
 model_file = all_args.model
